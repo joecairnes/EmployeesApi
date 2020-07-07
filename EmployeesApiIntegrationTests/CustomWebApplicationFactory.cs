@@ -25,7 +25,12 @@ namespace EmployeesApiIntegrationTests
                 }
 
                 services.AddSingleton<ISystemTime, TestingSystemTime>();
-                services.BuildServiceProvider();
+                var sp = services.BuildServiceProvider();
+
+                using (var scope = sp.CreateScope())
+                {
+                    var scopedServices
+                }
             });
         }
     }
