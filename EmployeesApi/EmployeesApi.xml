@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EmployeesApi</name>
+    </assembly>
+    <members>
+        <member name="M:EmployeesApi.Controllers.StatusController.GetABook(System.Int32)">
+            <summary>
+            Get a book by giving us an ID
+            </summary>
+            <param name="bookId">The ID of the book you want.</param>
+            <returns>Information about the book</returns>
+            <response code="200">This worked! Here is your book info!</response>
+            <response code="404">There is no book with that ID. Please check.</response>
+        </member>
+    </members>
+</doc>
