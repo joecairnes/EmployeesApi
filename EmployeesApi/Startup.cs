@@ -5,11 +5,15 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using AutoMapper;
+using EmployeesApi.Domain;
+using EmployeesApi.MapperProfiles;
 using EmployeesApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,7 +37,27 @@ namespace EmployeesApi
             services.AddControllers();
 
             //services.AddSingleton<ISystemTime, SystemTime>();
-            services.AddTransient<ISystemTime, SystemTime>();
+            //services.AddTransient<ISystemTime, SystemTime>();
+
+            services.AddDbContext<EmployeesDataContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("Employees"));
+            });
+
+            // example, Connection Strings is special, other things use GetValue
+            Console.WriteLine("API ADDRESS: " + Configuration.GetValue<string>("api-address"));
+
+            //services.AddTransient<ISystemTime, SystemTime>():
+
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new EmployeeProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton<IMapper>(mapper);
+            services.AddSingleton<MapperConfiguration>(mapperConfig);
 
             services.AddSwaggerGen(c =>
             {
